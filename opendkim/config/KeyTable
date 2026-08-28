@@ -1,0 +1,3 @@
+# KeyTable - Mapeia selectors para chaves
+# Formato: <selector>._domainkey.<domain> <domain>:<selector>:<path/to/private/key>
+mail._domainkey.example.com example.com:mail:/keys/example.com/mail.private

@@ -1,0 +1,33 @@
+# ============================================
+# Configuração do Servidor de Email Transacional
+# ============================================
+# Copie este arquivo para config.yaml e preencha os valores
+
+# API
+port: 3000
+apiKey: "sua-api-key-aqui-mude-em-producao"
+jwtSecret: "sua-jwt-secret-aqui-mude-em-producao"
+
+# Database PostgreSQL
+postgres:
+  host: postgres
+  port: 5432
+  user: email_user
+  password: "senha_banco_segura"
+  database: email_db
+
+# Redis
+redis:
+  host: redis
+  port: 6379
+
+# SMTP
+smtp:
+  host: postfix
+  port: 587
+  user: relay_user
+  password: "senha_smtp_segura"
+
+# Email
+emailDomain: "seu-dominio.com"
+fromEmail: "noreply@seu-dominio.com"

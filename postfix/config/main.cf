@@ -1,0 +1,84 @@
+# Postfix main configuration
+# https://www.postfix.org/postconf.5.html
+
+# Hostname and domain
+myhostname = mail.$DOMAIN
+mydomain = $DOMAIN
+myorigin = $mydomain
+mydestination = $myhostname, localhost, localhost.localdomain
+
+# Network settings
+inet_interfaces = all
+inet_protocols = all
+
+# Home directory
+home_mailbox = Maildir/
+
+# Mailbox size limit
+mailbox_size_limit = 0
+message_size_limit = 52428800
+
+# Aliases
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+# Relay settings
+relayhost =
+mynetworks = 127.0.0.0/8 [::1]/128
+relay_domains =
+
+# SASL Authentication
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+broken_sasl_auth_clients = yes
+
+# TLS/SSL
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_tls_loglevel = 1
+
+# Outbound TLS
+smtp_tls_security_level = may
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+smtp_tls_wrappermode = no
+
+# Rate limiting
+smtpd_client_message_rate_limit = 100
+smtpd_client_connection_rate_limit = 50
+smtpd_client_recipient_rate_limit = 100
+smtpd_client_new_tls_session_rate_limit = 50
+
+# Restrictions
+smtpd_helo_required = yes
+smtpd_helo_restrictions = permit_mynetworks, reject_invalid_helo_hostname, permit
+smtpd_sender_restrictions = permit_mynetworks, reject_sender_login_mismatch, permit
+smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination, permit
+
+# Queue settings
+queue_directory = /var/spool/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/lib/postfix/sbin
+mailbox_command =
+
+# Debugging
+debug_peer_list =
+debug_peer_level = 2
+
+# Milter (OpenDKIM)
+milter_protocol = 6
+milter_default_action = accept
+smtpd_milters = inet:opendkim:8891
+non_smtpd_milters = inet:opendkim:8891
+
+# Bounce messages
+bounce_queue_lifetime = 5d
+maximal_queue_lifetime = 5d
+
+# Smarthost (optional - for relaying through external SMTP)
+# relayhost = [smtp.example.com]:587
+# smtp_sasl_auth_enable = yes
+# smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+# smtp_sasl_tLS_security_level = encrypt

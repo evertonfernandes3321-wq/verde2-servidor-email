@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  # API do servidor de email
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: verde2-email-api
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - API_PORT=3000
+      - API_KEY=${API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SMTP_HOST=postfix
+      - SMTP_PORT=587
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - EMAIL_DOMAIN=${EMAIL_DOMAIN}
+      - FROM_EMAIL=${FROM_EMAIL}
+      - ADMIN_IP_ALLOWLIST=${ADMIN_IP_ALLOWLIST:-127.0.0.1/32,::1/128}
+      - RATE_LIMIT_GLOBAL=${RATE_LIMIT_GLOBAL:-100}
+      - RATE_LIMIT_PER_KEY=${RATE_LIMIT_PER_KEY:-50}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      postfix:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - email-network
+    mem_limit: 512m
+    cpus: 0.5
+
+  # Servidor PostgreSQL para armazenar templates e logs
+  postgres:
+    image: postgres:16-alpine
+    container_name: verde2-email-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - email-network
+
+  # Redis para filas e cache
+  redis:
+    image: redis:7-alpine
+    container_name: verde2-email-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - email-network
+
+  # Servidor Postfix para envio de emails
+  postfix:
+    image: boky/postfix:v4.0.0
+    container_name: verde2-email-postfix
+    hostname: mail
+    environment:
+      - HOSTNAME=mail
+      - DOMAIN=${EMAIL_DOMAIN}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    volumes:
+      - postfix-data:/var/spool/postfix
+      - postfix-log:/var/log/mail
+    ports:
+      - "25:587"
+      - "465:465"
+    depends_on:
+      opendkim:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - email-network
+
+  # OpenDKIM para assinatura DKIM
+  opendkim:
+    build:
+      context: ./opendkim
+      dockerfile: Dockerfile
+    container_name: verde2-email-opendkim
+    environment:
+      - DOMAIN=${EMAIL_DOMAIN}
+      - SELECTOR=mail
+    ports:
+      - "8891:8891"
+    volumes:
+      - ./opendkim/keys:/keys:ro
+      - ./opendkim/config:/etc/opendkim:ro
+    restart: unless-stopped
+    networks:
+      - email-network
+
+  # Painel admin (futuro)
+  # admin:
+  #   build:
+  #     context: ./admin
+  #   ports:
+  #     - "${ADMIN_PORT:-3001}:3000"
+  #   depends_on:
+  #     - api
+  #   networks:
+  #     - email-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  postfix-data:
+  postfix-log:
+
+networks:
+  email-network:
+    driver: bridge
