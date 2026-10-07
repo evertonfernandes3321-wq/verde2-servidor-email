@@ -1,0 +1,142 @@
+[
+  {
+    "path": "final-candidate-gitleaks.json",
+    "bytes": 337,
+    "sha256": "e0afb5bd63060c3d9f23b5e30f732e40db54624fdb67a250b01b183d4198ccfc"
+  },
+  {
+    "path": "final-reconciliation.json",
+    "bytes": 2860,
+    "sha256": "486249387be7bf5ad00db4ab65575bad1fab05d2522dedb0b3a9e0155bf5483d"
+  },
+  {
+    "path": "final-source-manifest.json",
+    "bytes": 14468,
+    "sha256": "6494c5ccccac791055256421aeee47fa50eddfc02127e0b62b2232670f360ca7"
+  },
+  {
+    "path": "historical-final-audit-cleanup-failed.json",
+    "bytes": 575,
+    "sha256": "c19e0a44aff52d7f6e6732c907881864d18f8988d2cb92572a12475a33ea4fcf"
+  },
+  {
+    "path": "historical-full-failed.json",
+    "bytes": 16417,
+    "sha256": "c4befbcb52b879cbbb92e464992fc4a413d4c565ec95757893a18b21022414bd"
+  },
+  {
+    "path": "historical-image-scan-failed.json",
+    "bytes": 51133,
+    "sha256": "27f3d11c993f86d3a957d00265c7365b90e26aec17a2cb0776102ced3b0e6fe8"
+  },
+  {
+    "path": "historical-recovery-failed.json",
+    "bytes": 17954,
+    "sha256": "8669eaa7cafeacfb2db289991f5d5eedcb6bb513f6a8b3fcac142c7c91fe2af3"
+  },
+  {
+    "path": "historical-recovery-pass.json",
+    "bytes": 18463,
+    "sha256": "0c7052c09a3c7a351c193a85dc92e92a36f052ce7efd661c77a7a744424d601c"
+  },
+  {
+    "path": "history-gitleaks.json",
+    "bytes": 440,
+    "sha256": "28a960f7cdedbfcb2ece124e67c3caa31ce3afee65f99674042f32190997f0d2"
+  },
+  {
+    "path": "image-scan-summary.json",
+    "bytes": 44372,
+    "sha256": "b6dff60cfdda6a877f478cc0d955c1029be8ddf4cf735309cb79ad538fdfb177"
+  },
+  {
+    "path": "intermediate-full-pass.json",
+    "bytes": 22695,
+    "sha256": "2e268c68bc0d34bbfa861bd0fe72da99ff81ece63b7a25f1f2867ffd9b0ee4ce"
+  },
+  {
+    "path": "intermediate-image-scan-failed.json",
+    "bytes": 48565,
+    "sha256": "84c8b2d4d1a55909402d09345b66dd429d46486dc413f006a1c6a9fb0797946e"
+  },
+  {
+    "path": "local-qualification.json",
+    "bytes": 22695,
+    "sha256": "340d5dc4dafbb2be96d780fd9c829533ee03c7b00821ca644063839d13e2d089"
+  },
+  {
+    "path": "preservation.json",
+    "bytes": 3772,
+    "sha256": "28c738828ea08223c213e398ae19e46b67473fbdae9c399d3b5d8ffef3274178"
+  },
+  {
+    "path": "qualified-source-manifest.json",
+    "bytes": 14468,
+    "sha256": "710d47ec3154cf3e8abb0a625ac673acf2339fbb9b2799d13f4c291c3a7f6100"
+  },
+  {
+    "path": "reviews.json",
+    "bytes": 4975,
+    "sha256": "917d9926a23c4cc34d2de57842ead5f88d4313343ea6bc437e05e711f8f1c43c"
+  },
+  {
+    "path": "verde2-api-local-sbom.json",
+    "bytes": 313372,
+    "sha256": "70af6194fe111c4bd69e2c5269a496d632daaf1ed132515879f23ccc9ca0f78c"
+  },
+  {
+    "path": "verde2-api-local-scan.json",
+    "bytes": 8320,
+    "sha256": "3e5ccb9079a6bd682bc0b8f9b369c5d29ab9da6c8ab79be2c6fe9c5fd5394a7f"
+  },
+  {
+    "path": "verde2-opendkim-local-sbom.json",
+    "bytes": 234879,
+    "sha256": "a60411e240a6923cc938b13688f7c75730e47f6fd51912eea00be4ecc2fa1691"
+  },
+  {
+    "path": "verde2-opendkim-local-scan.json",
+    "bytes": 8727,
+    "sha256": "235d0e6c6756b64ffcf6805ba311d97a841eb624c8977102ddcb9fbbc8ea0260"
+  },
+  {
+    "path": "verde2-policy-local-sbom.json",
+    "bytes": 213505,
+    "sha256": "f877214af313762ab960844d6071ed8e08dab880869cf84be65c3b8b711748e1"
+  },
+  {
+    "path": "verde2-policy-local-scan.json",
+    "bytes": 12863,
+    "sha256": "ee432b5d6dff5833748a1377443939ed63745469c247821bab7d2129d9159d79"
+  },
+  {
+    "path": "verde2-postfix-local-sbom.json",
+    "bytes": 255819,
+    "sha256": "90d16293d387a94ee8f1c6ab38a3fbcd00516c1d9c8d819b162877a2ad771667"
+  },
+  {
+    "path": "verde2-postfix-local-scan.json",
+    "bytes": 12864,
+    "sha256": "bb9a61cf06cfb160385d1f3c5096869a71f9f3a6737ac18c277e1c6ebb85d945"
+  },
+  {
+    "path": "verde2-postgres-local-sbom.json",
+    "bytes": 80310,
+    "sha256": "357bb1dc521324926aed6816197aeb8dc28069e70f635f5185e7c5da7a68c49b"
+  },
+  {
+    "path": "verde2-postgres-local-scan.json",
+    "bytes": 332,
+    "sha256": "e471faa78a681b5040bd6518b092f440a0d7fd6f4600aebc23d213fe7434a8ea"
+  },
+  {
+    "path": "verde2-redis-local-sbom.json",
+    "bytes": 33671,
+    "sha256": "c2e5670940d35021ff45da6b1869f4cf1637351439fbdb966cf29866409c8b04"
+  },
+  {
+    "path": "verde2-redis-local-scan.json",
+    "bytes": 329,
+    "sha256": "ebc6ccd7fb1c5509ec2bdf607bbde8f9dd40bf1f94bd72c99209ee6b50afe193"
+  }
+]

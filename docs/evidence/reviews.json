@@ -1,0 +1,71 @@
+{
+  "kind": "independent_source_reviews",
+  "runtimeExecution": "Recorded separately by the full qualification report",
+  "recursiveDelegation": false,
+  "maximumConcurrentEditors": 2,
+  "distinctEditorFiles": true,
+  "reviews": [
+    {
+      "reviewer": "design",
+      "scope": "API/worker, migrations and OpenAPI",
+      "method": "Read-only source, rg, Get-Content, JSON; no tests/services",
+      "findings": [
+        "Unknown enum/domain-only database accepted as empty",
+        "HTTP oversized body incorrectly classified as 500",
+        "Unknown namespace-owned collations and aggregates could survive empty/database drift checks"
+      ],
+      "closure": "Explicit enum/domain/type fingerprint and unsupported namespace-catalog guard preserve both legacy hashes; sanitized 413/415/400 implemented. FULL 1791335678686-39648 actually executed PostgreSQL24 tests; new final FULL required for later PostgreSQL image and OpenAPI description changes.",
+      "status": "SOURCE_CLOSED",
+      "limits": "Independent source review did not execute services; final FULL1791337660662-34956 separately passed all24 PostgreSQL tests, including unknown catalogue objects and both legacy fingerprints."
+    },
+    {
+      "reviewer": "api",
+      "scope": "Postfix/policy/DKIM and transport contracts",
+      "method": "Read-only source, rg, Get-Content; no tests/services",
+      "findings": [
+        "Unbounded queue-check response could exceed 64 KiB",
+        "Uncorrelated held DSN/orphan content lacked a local expiry path"
+      ],
+      "closure": "Independent concurrency review below",
+      "status": "SOURCE_CLOSED",
+      "limits": "No operational encryption, DNS or external delivery qualification"
+    },
+    {
+      "reviewer": "concurrency",
+      "scope": "Supervisor expiry, queue-check binding, restored journal and release deadlines",
+      "method": "Read-only source, rg, Get-Content; no tests/services",
+      "findings": [
+        "Release authorization could expire while other batches or DSN checks were pending"
+      ],
+      "closure": "Batches of 250 with ID-bound finite UTC deadline; fresh clock and 10-second margin before each release; local expiry and conservative unknown hold; no invented orphan state",
+      "status": "SOURCE_CLOSED",
+      "limits": "Final image/transport/load/restore execution remains a separate proof"
+    },
+    {
+      "reviewer": "security",
+      "scope": "Image scan and SBOM packages, official vendor advisories, PostgreSQL helper and Redis patches",
+      "method": "Read-only source/reports and primary official sources; no Docker/edits",
+      "findings": [
+        "Debian trixie packages remained affected without a compatible published fix observed",
+        "Go stdlib findings were confined to old PostgreSQL gosu helper",
+        "Redis OpenSSL stable package fix available"
+      ],
+      "closure": "Final independent audit of FULL 1791337660662-34956 and scan 1791339015091 confirmed 6/6 exact qualified image IDs and six SBOMs. Four Debian images FAIL: 225 HIGH occurrences, 17 unique CVEs, zero CRITICAL and zero secret findings. API global npm/Corepack/Yarn components removed; PostgreSQL Go components absent and su-exec 0.3-r0 present; Redis libssl3/libcrypto3 3.3.7-r2. PostgreSQL and Redis PASS. Earlier Go residual scan remains FAIL in historical evidence; no exceptions or severity relaxation.",
+      "status": "MANDATORY_IMAGE_GATE_FAIL",
+      "limits": "Read-only independent comparisons; no Docker/tests/exploit validation by reviewer; no exceptions, unstable package mixing or severity relaxation. Productionblocked."
+    },
+    {
+      "reviewer": "documentation",
+      "scope": "README/runbook/handoff and limitations",
+      "method": "Read-only documentation; no tests/services",
+      "findings": [
+        "Quota window and UTC timezone omitted",
+        "Bootstrap example mounted all service secrets writable into API process",
+        "Global admin OpenAPI operation used tenant-credential description"
+      ],
+      "closure": "Quota fixed-minute and UTC-day semantics documented. Bootstrap uses a dedicated encrypted output directory, mode 0700 and Node owner, without mounting the service secret directory. Generated OpenAPI separates application, administrative and internal descriptions. Final curated evidence review verified load 1000 messages/10 clients/zero duplicates/DKIM1000, elapsed 673967 ms, restore 107462 ms, 17 unique image CVEs, five final states, historical failures, resolving links and size/SHA-256 of all 28 indexed artifacts.",
+      "status": "FINAL_DOCUMENTATION_REVIEW_CLOSED",
+      "limits": "Reviewer performed read-only document and artifact hash comparisons, without Docker, tests or secrets. Runtime/source preservation and cleanup inspections were performed separately by root and recorded in final-reconciliation.json. Image security remains FAIL; CI, external delivery and operational recovery targets remain unqualified."
+    }
+  ]
+}

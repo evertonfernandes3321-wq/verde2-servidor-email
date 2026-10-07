@@ -1,0 +1,107 @@
+{
+  "head": "e7c98110ee51d8fe1b4e6828c9b05366a6293a81",
+  "branch": "feat/verde2-production-mail",
+  "legacyFiles": 16,
+  "comparisons": [
+    {
+      "original": "api/src/config/index.js",
+      "archive": "api/legacy/src/config/index.js",
+      "sha256": "507edb10abc5b5895c3a1c604f0c0447b9ee93f86f2f5f045670bc3eedc8ebd7",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/db/migrate.js",
+      "archive": "api/legacy/src/db/migrate.js",
+      "sha256": "6a97df0a39b3c3b753df38bb4457339ff0ada49d63c1dad839e31c07835bd74c",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/db/postgres.js",
+      "archive": "api/legacy/src/db/postgres.js",
+      "sha256": "ab411823faa0c94d732a0c90745ed1596b3b3d0acd908e0a93c68c09a3cf0c2e",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/db/redis.js",
+      "archive": "api/legacy/src/db/redis.js",
+      "sha256": "1e5170d1ebcd806a2cfd703ab8465077cccbaf788d1bc87eb2fe6c9e520c3b5b",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/index.js",
+      "archive": "api/legacy/src/index.js",
+      "sha256": "3186dc177792a9948d6fd8f79c920ef572e1dc166ea7f573de32075b5a743d6d",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/plugins/auth.js",
+      "archive": "api/legacy/src/plugins/auth.js",
+      "sha256": "b67a9baf6baba5396cc3a9152602f1a901c2a501cca008b07ee68ca9c8518a99",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/plugins/security.js",
+      "archive": "api/legacy/src/plugins/security.js",
+      "sha256": "17cc47ba82b8442766c96046af06d12e109a508de81255d41c49b8de21729b33",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/routes/health.js",
+      "archive": "api/legacy/src/routes/health.js",
+      "sha256": "13b13884c7025db984a2f88d6903500f80969876f248cb29c2bf2e4d4356a2f7",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/routes/logs.js",
+      "archive": "api/legacy/src/routes/logs.js",
+      "sha256": "b97a15fe64ed0d06de5ae1162753389d6d3634daf6999196bb8729784d38234d",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/routes/send.js",
+      "archive": "api/legacy/src/routes/send.js",
+      "sha256": "32e0bfa29ef54a6af69bc40434cf4258988d4ddb6b972fc0b081f0d2a8661a59",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/routes/stats.js",
+      "archive": "api/legacy/src/routes/stats.js",
+      "sha256": "d1ee439db50a0974a33db4ea07f93cd6239f1a205c540b0081439870098e70d4",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/routes/templates.js",
+      "archive": "api/legacy/src/routes/templates.js",
+      "sha256": "a367a0685958bc9734a19122a0c3d80a8565e855f8f6a89293e4cc773b7237a5",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/services/email.js",
+      "archive": "api/legacy/src/services/email.js",
+      "sha256": "8ad8653a6125f3137e3877d193990128e1a44192e5fd2d0494094ed7f3113b3f",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/services/queue.js",
+      "archive": "api/legacy/src/services/queue.js",
+      "sha256": "0d2d7521d8a806e62516aacf39a20efeb71ede60988b34c5b16a11b00f81e107",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/utils/logger.js",
+      "archive": "api/legacy/src/utils/logger.js",
+      "sha256": "ff618caad4c31c68e68d18cd7ce718bcbb11c8f5105f4e005cb29f53e0e94d79",
+      "sameBytes": true
+    },
+    {
+      "original": "api/src/utils/validation.js",
+      "archive": "api/legacy/src/utils/validation.js",
+      "sha256": "3aa54d4f642cb8bf9727dff945e66648239a07f1515b80c049480c593b83e417",
+      "sameBytes": true
+    }
+  ],
+  "ignoredConfigurationPresent": true,
+  "ignoredConfigurationValuesRead": false,
+  "commitPushDeploy": false,
+  "observedAt": "2026-10-07T00:55:17.836Z"
+}

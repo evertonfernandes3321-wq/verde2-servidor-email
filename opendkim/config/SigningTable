@@ -1,3 +1,1 @@
-# SigningTable - Define quais domínios serão assinados
-# Formato: <domain> <selector>._domainkey.<domain>
-*@example.com mail._domainkey.example.com
+# Generated at startup from explicit domain/selector.\n

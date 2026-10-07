@@ -1,0 +1,9 @@
+node_modules
+.local-baseline
+.env
+.env.*
+*.pem
+*.key
+*.p12
+coverage
+npm-debug.log

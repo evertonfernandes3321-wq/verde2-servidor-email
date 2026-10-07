@@ -1,0 +1,15 @@
+{
+  "SchemaVersion": 2,
+  "Metadata": {
+    "ImageID": "sha256:71d48b18b555cdb40c8195e1c3ed37f65b57c548b78bef7959c80b4f05fac7c7"
+  },
+  "Results": [
+    {
+      "Target": "/data/verde2-redis-local.tar (alpine 3.21.8)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Vulnerabilities": [],
+      "Secrets": []
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "status": "FAIL",
+  "gate": "Final reconciliation initial attempt",
+  "reason": "Task-owned inactive synthetic debug container remained from an earlier diagnostic",
+  "resource": "verde2-qualify-1791326866699-19776-dkim",
+  "label": "verde2-qualify-1791326866699-19776",
+  "before": {
+    "running": false,
+    "status": "created"
+  },
+  "action": "Verified qualification ownership and workspace-only bind mounts; removed exact container ID; no host files or other project resources removed",
+  "runtimeSourcesChanged": false,
+  "observedAt": "2026-10-07T02:14:43.078Z"
+}

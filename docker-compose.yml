@@ -1,144 +1,181 @@
-version: '3.8'
-
+name: verde2
+x-app-env: &app-env
+  NODE_ENV: production
+  DATABASE_URL: ${DATABASE_URL:?required}
+  REDIS_URL: ${REDIS_URL:?required}
+  CONTENT_KEY: ${CONTENT_KEY:?required}
+  CREDENTIAL_PEPPER: ${CREDENTIAL_PEPPER:?required}
+  INTERNAL_TOKEN: ${INTERNAL_TOKEN:?required}
+  SMTP_HOST: ${MAIL_HOSTNAME:?required}
+  SMTP_PORT: "587"
+  SMTP_CA_FILE: /run/secrets/submission-ca.crt
+  EMAIL_DOMAIN: ${EMAIL_DOMAIN:?required}
+  BOUNCE_DOMAIN: ${BOUNCE_DOMAIN:?required}
+  MAIL_INSTANCE_ID: ${MAIL_INSTANCE_ID:?required}
+  INTERNAL_TLS_CERT_FILE: /run/secrets/internal.crt
+  INTERNAL_TLS_KEY_FILE: /run/secrets/internal.key
+  WORKER_CONCURRENCY: "2"
+  SERVICE_DAILY_QUOTA: ${SERVICE_DAILY_QUOTA:-2000}
+x-control-env: &control-env
+  EMAIL_DOMAIN: ${EMAIL_DOMAIN:?required}
+  INTERNAL_URL: https://internal:3001
+  INTERNAL_TOKEN: ${INTERNAL_TOKEN:?required}
+  INTERNAL_CA_FILE: /run/secrets/internal-ca.crt
+  MAIL_INSTANCE_ID: ${MAIL_INSTANCE_ID:?required}
 services:
-  # API do servidor de email
   api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    container_name: verde2-email-api
-    ports:
-      - "${API_PORT:-3000}:3000"
-    environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - API_PORT=3000
-      - API_KEY=${API_KEY}
-      - JWT_SECRET=${JWT_SECRET}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - SMTP_HOST=postfix
-      - SMTP_PORT=587
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - EMAIL_DOMAIN=${EMAIL_DOMAIN}
-      - FROM_EMAIL=${FROM_EMAIL}
-      - ADMIN_IP_ALLOWLIST=${ADMIN_IP_ALLOWLIST:-127.0.0.1/32,::1/128}
-      - RATE_LIMIT_GLOBAL=${RATE_LIMIT_GLOBAL:-100}
-      - RATE_LIMIT_PER_KEY=${RATE_LIMIT_PER_KEY:-50}
-      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
-      - LOG_LEVEL=${LOG_LEVEL:-info}
+    image: verde2/api:local
+    build: ./api
+    environment: *app-env
+    ports: ["127.0.0.1:${API_PORT:-3000}:3000"]
+    networks: [private]
+    volumes:
+      - ${SECRETS_DIR:?required}/submission-ca.crt:/run/secrets/submission-ca.crt:ro
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
-      postfix:
-        condition: service_started
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
     restart: unless-stopped
-    networks:
-      - email-network
-    mem_limit: 512m
-    cpus: 0.5
-
-  # Servidor PostgreSQL para armazenar templates e logs
+    logging: {driver: local, options: {max-size: 10m, max-file: "3"}}
+  internal:
+    image: verde2/api:local
+    build: ./api
+    command: ["node", "src/internal.js"]
+    environment: *app-env
+    networks: [private]
+    volumes:
+      - ${SECRETS_DIR:?required}/internal.crt:/run/secrets/internal.crt:ro
+      - ${SECRETS_DIR:?required}/internal.key:/run/secrets/internal.key:ro
+      - ${SECRETS_DIR:?required}/internal-ca.crt:/run/secrets/internal-ca.crt:ro
+      - ${SECRETS_DIR:?required}/submission-ca.crt:/run/secrets/submission-ca.crt:ro
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('node:https').get('https://internal:3001/health/ready',{ca:require('node:fs').readFileSync('/run/secrets/internal-ca.crt'),rejectUnauthorized:true,timeout:3000},r=>{r.resume();process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1)).on('timeout',function(){this.destroy()})"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
+  worker:
+    image: verde2/api:local
+    build: ./api
+    command: ["node", "src/worker.js"]
+    # Worker has no HTTP listener. External monitoring must inspect process/queue progress;
+    # disabling the inherited HTTP probe does not assert worker readiness.
+    healthcheck: {disable: true}
+    environment: *app-env
+    networks: [private]
+    volumes:
+      - ${SECRETS_DIR:?required}/submission-ca.crt:/run/secrets/submission-ca.crt:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      postfix: {condition: service_started}
+    restart: unless-stopped
+  maintenance:
+    image: verde2/api:local
+    command: ["node", "src/maintenance.js"]
+    environment: *app-env
+    networks: [private]
+    profiles: [operations]
+    volumes:
+      - ${SECRETS_DIR:?required}/submission-ca.crt:/run/secrets/submission-ca.crt:ro
+  migrate:
+    image: verde2/api:local
+    command: ["node", "src/db/migrate.js"]
+    environment: *app-env
+    networks: [private]
+    profiles: [operations]
+    volumes:
+      - ${SECRETS_DIR:?required}/submission-ca.crt:/run/secrets/submission-ca.crt:ro
+  journal-maintenance:
+    image: verde2/postfix:local
+    entrypoint: ["python3"]
+    command: ["/opt/verde2/journal.py"]
+    network_mode: none
+    profiles: [operations]
+    volumes:
+      - ${ENCRYPTED_DATA_DIR:?required}/postfix:/var/spool/postfix
   postgres:
-    image: postgres:16-alpine
-    container_name: verde2-email-postgres
+    image: verde2/postgres:local
+    build: ./postgres
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+    command: ["postgres", "-c", "log_statement=none", "-c", "log_min_error_statement=fatal", "-c", "log_error_verbosity=terse", "-c", "log_parameter_max_length_on_error=0"]
+    volumes: ["${ENCRYPTED_DATA_DIR:?required}/postgres:/var/lib/postgresql/data"]
+    networks: [private]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
     restart: unless-stopped
-    networks:
-      - email-network
-
-  # Redis para filas e cache
   redis:
-    image: redis:7-alpine
-    container_name: verde2-email-redis
-    command: redis-server --appendonly yes
+    image: verde2/redis:local
+    build: ./redis
+    command: ["redis-server", "/run/secrets/redis.conf"]
     volumes:
-      - redis-data:/data
+      - ${SECRETS_DIR:?required}/redis.conf:/run/secrets/redis.conf:ro
+    networks: [private]
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "redis-cli ping 2>&1 | grep -q NOAUTH"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
     restart: unless-stopped
-    networks:
-      - email-network
-
-  # Servidor Postfix para envio de emails
   postfix:
-    image: boky/postfix:v4.0.0
-    container_name: verde2-email-postfix
-    hostname: mail
+    image: verde2/postfix:local
+    build: ./postfix
+    hostname: ${MAIL_HOSTNAME:?required}
     environment:
-      - HOSTNAME=mail
-      - DOMAIN=${EMAIL_DOMAIN}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-    volumes:
-      - postfix-data:/var/spool/postfix
-      - postfix-log:/var/log/mail
+      <<: *control-env
+      MAIL_HOSTNAME: ${MAIL_HOSTNAME:?required}
+      EMAIL_DOMAIN: ${EMAIL_DOMAIN:?required}
+      BOUNCE_DOMAIN: ${BOUNCE_DOMAIN:?required}
     ports:
-      - "25:587"
-      - "465:465"
-    depends_on:
-      opendkim:
-        condition: service_started
-    restart: unless-stopped
+      # Loopback until an authorized firewall allowlist/reverse tunnel is installed.
+      - "127.0.0.1:${SUBMISSION_PORT:-587}:587"
+      - "127.0.0.1:${DSN_PORT:-25}:25"
+    volumes:
+      - ${ENCRYPTED_DATA_DIR:?required}/postfix:/var/spool/postfix
+      - ${SECRETS_DIR:?required}/submission.crt:/run/secrets/submission.crt:ro
+      - ${SECRETS_DIR:?required}/submission.key:/run/secrets/submission.key:ro
+      - ${SECRETS_DIR:?required}/internal-ca.crt:/run/secrets/internal-ca.crt:ro
+      - ${OPERATIONS_EVIDENCE_DIR:?required}/storage-verified:/run/storage-evidence:ro
+      - ${OPERATIONS_EVIDENCE_DIR:?required}/restore-release:/run/restore-release:ro
+    tmpfs: [/tmp, /var/lib/postfix, /run/saslauthd]
     networks:
-      - email-network
-
-  # OpenDKIM para assinatura DKIM
+      private:
+        aliases: ["${MAIL_HOSTNAME:?required}"]
+      delivery: {}
+    depends_on: [policy, opendkim, internal]
+    restart: unless-stopped
+  policy:
+    image: verde2/policy:local
+    build: ./policy
+    environment: *control-env
+    volumes:
+      - ${SECRETS_DIR:?required}/internal-ca.crt:/run/secrets/internal-ca.crt:ro
+    read_only: true
+    tmpfs: [/tmp]
+    networks: [private]
+    depends_on: [internal]
+    restart: unless-stopped
   opendkim:
-    build:
-      context: ./opendkim
-      dockerfile: Dockerfile
-    container_name: verde2-email-opendkim
+    image: verde2/opendkim:local
+    build: ./opendkim
     environment:
-      - DOMAIN=${EMAIL_DOMAIN}
-      - SELECTOR=mail
-    ports:
-      - "8891:8891"
+      EMAIL_DOMAIN: ${EMAIL_DOMAIN:?required}
+      DKIM_SELECTOR: ${DKIM_SELECTOR:?required}
     volumes:
-      - ./opendkim/keys:/keys:ro
-      - ./opendkim/config:/etc/opendkim:ro
+      - ${DKIM_PRIVATE_KEY_FILE:?required}:/run/secrets/dkim.private:ro
+    tmpfs: [/run/opendkim, /tmp]
+    networks: [private]
     restart: unless-stopped
-    networks:
-      - email-network
-
-  # Painel admin (futuro)
-  # admin:
-  #   build:
-  #     context: ./admin
-  #   ports:
-  #     - "${ADMIN_PORT:-3001}:3000"
-  #   depends_on:
-  #     - api
-  #   networks:
-  #     - email-network
-
-volumes:
-  postgres-data:
-  redis-data:
-  postfix-data:
-  postfix-log:
-
 networks:
-  email-network:
+  private:
+    internal: true
+  delivery:
+    # Only MTA can reach external MX. Never attach this network in local qualification.
     driver: bridge

@@ -1,62 +1,30 @@
-# ============================================
-# Dockerfile - Verde2 Email API
-# ============================================
-
-# Build multi-stage para reduzir tamanho
-FROM node:20-alpine AS builder
-
+FROM node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66 AS dependencies
 WORKDIR /app
-
-# Copiar apenas arquivos necessários para install
-COPY package*.json ./
-
-# Instalar dependências
-RUN npm ci --only=production
-
-# ============================================
-# Imagem final
-# ============================================
-FROM node:20-alpine
-
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+FROM node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66 AS test
 WORKDIR /app
-
-# Instalar dependências do sistema
-RUN apk add --no-cache \
-    dumb-init \
-    ca-certificates \
-    && rm -rf /var/cache/apk/*
-
-# Copiar node_modules e código do builder
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY src/ ./src/
-
-# Criar usuário não-root com UID/GID fixos
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001 -G nodejs
-
-# Permissões corretas
-RUN chown -R nodejs:nodejs /app
-
-# Usar dumb-init para sinais corretos
-ENTRYPOINT ["dumb-init", "--"]
-
-# Trocar para usuário não-root
-USER nodejs
-
-# Expor porta
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
+COPY src ./src
+COPY migrations ./migrations
+COPY legacy ./legacy
+COPY test ./test
+COPY scripts ./scripts
+COPY eslint.config.js openapi.json ./
+CMD ["npm","test"]
+FROM node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66 AS runtime
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /opt/yarn-v* \
+    && rm -f /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/yarn /usr/local/bin/yarnpkg /usr/local/bin/corepack
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY package.json package-lock.json ./
+COPY src ./src
+COPY migrations ./migrations
+COPY openapi.json ./openapi.json
+USER node
 EXPOSE 3000
-
-# Variáveis de ambiente
-ENV NODE_ENV=production \
-    PORT=3000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3000/health/live', (r) => process.exit(r.statusCode === 200 ? 0 : 1))" || exit 1
-
-# Limitar recursos
-# (Configurado no docker-compose.yml)
-
-# Iniciar aplicação
-CMD ["node", "src/index.js"]
+HEALTHCHECK --interval=30s --timeout=5s CMD node -e "fetch('http://127.0.0.1:3000/health/live').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+CMD ["node","src/index.js"]

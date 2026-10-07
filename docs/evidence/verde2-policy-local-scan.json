@@ -1,0 +1,424 @@
+{
+  "SchemaVersion": 2,
+  "Metadata": {
+    "ImageID": "sha256:245eed72edb009981cb9776448ef9edf91c4988f5f70668d76a0ee6d53a5a689"
+  },
+  "Results": [
+    {
+      "Target": "/data/verde2-policy-local.tar (debian 13.7)",
+      "Class": "os-pkgs",
+      "Type": "debian",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "bsdutils",
+          "InstalledVersion": "1:2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "bsdutils",
+          "InstalledVersion": "1:2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "bsdutils",
+          "InstalledVersion": "1:2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "bsdutils",
+          "InstalledVersion": "1:2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-54369",
+          "PkgName": "libacl1",
+          "InstalledVersion": "2.3.2-2+b1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "libblkid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "libblkid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "libblkid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "libblkid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-66046",
+          "PkgName": "libexpat1",
+          "InstalledVersion": "2.8.3-1~deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76956",
+          "PkgName": "libexpat1",
+          "InstalledVersion": "2.8.3-1~deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76957",
+          "PkgName": "libexpat1",
+          "InstalledVersion": "2.8.3-1~deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-93990",
+          "PkgName": "libexpat1",
+          "InstalledVersion": "2.8.3-1~deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "liblastlog2-2",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "liblastlog2-2",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "liblastlog2-2",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "liblastlog2-2",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "libmount1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "libmount1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "libmount1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "libmount1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-69720",
+          "PkgName": "libncursesw6",
+          "InstalledVersion": "6.5+20250216-2",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-15308",
+          "PkgName": "libpython3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19445",
+          "PkgName": "libpython3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19553",
+          "PkgName": "libpython3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-7210",
+          "PkgName": "libpython3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-82049",
+          "PkgName": "libpython3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-15308",
+          "PkgName": "libpython3.13-stdlib",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19445",
+          "PkgName": "libpython3.13-stdlib",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19553",
+          "PkgName": "libpython3.13-stdlib",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-7210",
+          "PkgName": "libpython3.13-stdlib",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-82049",
+          "PkgName": "libpython3.13-stdlib",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "libsmartcols1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "libsmartcols1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "libsmartcols1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "libsmartcols1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-16742",
+          "PkgName": "libsystemd0",
+          "InstalledVersion": "257.13-1~deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-69720",
+          "PkgName": "libtinfo6",
+          "InstalledVersion": "6.5+20250216-2",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-16742",
+          "PkgName": "libudev1",
+          "InstalledVersion": "257.13-1~deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "libuuid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "libuuid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "libuuid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "libuuid1",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "login",
+          "InstalledVersion": "1:4.16.0-2+really2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "login",
+          "InstalledVersion": "1:4.16.0-2+really2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "login",
+          "InstalledVersion": "1:4.16.0-2+really2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "login",
+          "InstalledVersion": "1:4.16.0-2+really2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "mount",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "mount",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "mount",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "mount",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-69720",
+          "PkgName": "ncurses-base",
+          "InstalledVersion": "6.5+20250216-2",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-69720",
+          "PkgName": "ncurses-bin",
+          "InstalledVersion": "6.5+20250216-2",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-9538",
+          "PkgName": "perl-base",
+          "InstalledVersion": "5.40.1-6+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-15308",
+          "PkgName": "python3.13",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19445",
+          "PkgName": "python3.13",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19553",
+          "PkgName": "python3.13",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-7210",
+          "PkgName": "python3.13",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-82049",
+          "PkgName": "python3.13",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-15308",
+          "PkgName": "python3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19445",
+          "PkgName": "python3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-19553",
+          "PkgName": "python3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-7210",
+          "PkgName": "python3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-82049",
+          "PkgName": "python3.13-minimal",
+          "InstalledVersion": "3.13.5-2+deb13u5",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-76642",
+          "PkgName": "util-linux",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78408",
+          "PkgName": "util-linux",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78409",
+          "PkgName": "util-linux",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-78410",
+          "PkgName": "util-linux",
+          "InstalledVersion": "2.41.5-0+deb13u1",
+          "Severity": "HIGH"
+        }
+      ],
+      "Secrets": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "SchemaVersion": 2,
+  "Metadata": {
+    "ImageID": "sha256:5c1286290ea4a2d57b6c26afb49e7765721a4e74936d36574476cf27fedcc470"
+  },
+  "Results": [
+    {
+      "Target": "/data/verde2-postgres-local.tar (alpine 3.24.2)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Vulnerabilities": [],
+      "Secrets": []
+    }
+  ]
+}

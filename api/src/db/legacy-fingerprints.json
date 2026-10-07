@@ -1,0 +1,7 @@
+{
+  "postgresMajor": 16,
+  "variants": {
+    "single": "018c5ef54ec6269e2f40e161ca0173a2c5b04af3866736784850326fbe26b2e7",
+    "multi": "d9b9ec05dd92bf0d5538dec00d5249bfec7223d44a8da5efa79d972742b61da2"
+  }
+}

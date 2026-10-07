@@ -1,0 +1,1 @@
+Historical source only. Not imported or included in production images. Schemas retained for provenance; never use legacy defaults or authentication.

@@ -1,0 +1,37 @@
+# Operational override: fill only from successful qualification and image scans.
+# Local sha256 image IDs work on the qualified engine; registry references require
+# an explicitly authorized publication and qualification on the target engine.
+services:
+  postgres:
+    build: !reset null
+    image: ${POSTGRES_QUALIFIED_IMAGE:?qualified immutable image required}
+  redis:
+    build: !reset null
+    image: ${REDIS_QUALIFIED_IMAGE:?qualified immutable image required}
+  api:
+    build: !reset null
+    image: ${API_QUALIFIED_IMAGE:?qualified immutable image required}
+  internal:
+    build: !reset null
+    image: ${API_QUALIFIED_IMAGE:?qualified immutable image required}
+  worker:
+    build: !reset null
+    image: ${API_QUALIFIED_IMAGE:?qualified immutable image required}
+  migrate:
+    build: !reset null
+    image: ${API_QUALIFIED_IMAGE:?qualified immutable image required}
+  maintenance:
+    build: !reset null
+    image: ${API_QUALIFIED_IMAGE:?qualified immutable image required}
+  postfix:
+    build: !reset null
+    image: ${POSTFIX_QUALIFIED_IMAGE:?qualified immutable image required}
+  policy:
+    build: !reset null
+    image: ${POLICY_QUALIFIED_IMAGE:?qualified immutable image required}
+  opendkim:
+    build: !reset null
+    image: ${OPENDKIM_QUALIFIED_IMAGE:?qualified immutable image required}
+  journal-maintenance:
+    build: !reset null
+    image: ${POSTFIX_QUALIFIED_IMAGE:?qualified immutable image required}

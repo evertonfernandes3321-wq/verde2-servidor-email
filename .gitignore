@@ -6,7 +6,8 @@ yarn-error.log*
 
 # API node_modules e lock
 api/node_modules/
-api/package-lock.json
+# Lockfile is versioned for reproducible installation.
+api/.local-baseline/
 
 # Docker volumes
 postgres-data/
@@ -49,3 +50,14 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# Local qualification secrets, ephemeral evidence and encrypted artifacts
+.qualification/
+secrets/
+opendkim/keys/
+artifacts/private/
+__pycache__/
+*.pyc
+*.key
+*.pem
+*.p12

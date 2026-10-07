@@ -1,6 +1,1 @@
-# Lista de hosts confiáveis (podem enviar emails através deste servidor)
-127.0.0.1
-::1
-localhost
-*.local
-*.example.com
+# Generated at startup: no wildcard host or network trust.\n
