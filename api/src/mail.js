@@ -37,6 +37,8 @@ export function render(definition, variables = {}) {
     if (value !== undefined) data[variable.name] = value;
   }
   const run = (source, html = false) => {
+    if (source === undefined || source === null) return undefined;
+    requireThat(typeof source === "string", 400, "invalid_template");
     if (!source) return undefined;
     try {
       const ast = Handlebars.parse(source);

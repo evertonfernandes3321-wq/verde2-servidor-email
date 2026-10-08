@@ -1,5 +1,29 @@
 # Bloqueio de segurança das imagens
 
+As provas de imagem abaixo são históricas de 07/10/2026. A retomada da VPS,
+CI remota e correções de 08/10/2026 estão em
+[operação da VPS](operacao-vps-2026-10-08.md); não constituem novo scan dessas
+imagens nem removem o bloqueio.
+
+## Correção da dependência Handlebars — 08/10/2026
+
+A CI `37838226985` falhou no `npm audit` da aplicação com Handlebars 4.7.9.
+O [advisory do mantenedor](https://github.com/handlebars-lang/handlebars.js/security/advisories/GHSA-8r5x-fm3f-whwj)
+classifica a confusão de AST como CRITICAL e identifica a correção em 4.7.10.
+Isso não prova exploração no Verde2: o advisory distingue aplicações que
+compilam objetos daquelas que somente compilam strings.
+
+Manifesto e lockfile agora fixam 4.7.10. O renderizador também rejeita fontes
+não textuais antes de analisar ou compilar; teste cobre assunto, texto e HTML
+sem acessar os objetos fornecidos. Instalação limpa isolada, lint, 13 testes
+unitários/contratos e `npm audit` com zero vulnerabilidades passaram localmente.
+As configurações ignoradas e o código legado foram preservados.
+
+O gate de imagens não executou na CI que parou no audit. Uma imagem nova com
+esta dependência deve receber sua própria identidade, SBOM, scan e provas
+funcionais; a aprovação dos testes unitários não aprova pacotes Debian ainda
+vulneráveis. Não foi criada exceção para advisories ou severidades.
+
 Consulta em 2026-10-07 UTC. A análise local encontrou versões afetadas segundo Trivy e o fornecedor; não houve validação de exploração no Verde2. O gate HIGH/CRITICAL permanece obrigatório. `no-dsa` não significa corrigido, e nenhuma exceção ou redução de severidade foi aplicada.
 
 O relatório consolidado e os IDs efetivamente analisados estão em [evidence.md](evidence.md). SBOM e relatórios sanitizados separam achados anteriores e posteriores à redução do runtime. `npm audit` da aplicação não cobre os pacotes do sistema nem o npm global da imagem base.

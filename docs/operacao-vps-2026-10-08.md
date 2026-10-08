@@ -87,8 +87,25 @@ PASS. Exportação de 15 arquivos reais de evidências anteriores: PASS,
 preservando segurança FAIL; isso não é nova qualificação do runtime.
 Um ensaio sobre todo o diretório local histórico recusou evidência antiga
 com estado não reconhecido; não foi convertida em PASS. A CI usa checkout
-limpo e publica a rodada gerada nela. A nova execução remota ainda precisa
-ser conferida no SHA publicado, incluindo os artifacts.
+limpo e publica a rodada gerada nela.
+
+A correção da base/exportador foi publicada no commit assinado
+`2dd950926366fe0facfc14a8544627864352c956`. A
+[CI 37838226985](https://github.com/evertonfernandes3321-wq/verde2-servidor-email/actions/runs/37838226985)
+confirmou **PASS de exportação e publicação do artifact**, com relatório de
+falha preservado. Instalação limpa, lint e contratos/unitários passaram;
+`npm audit` falhou por advisories de Handlebars até 4.7.9. O gate de imagens
+não executou nessa rodada. O artifact sanitizado foi baixado/conferido.
+
+A dependência foi fixada em **4.7.10**, versão corrigida pelo
+[mantenedor do Handlebars](https://github.com/handlebars-lang/handlebars.js/security/advisories/GHSA-8r5x-fm3f-whwj).
+O renderizador também rejeita fontes não textuais antes de analisar AST ou
+compilar. Novo teste verifica rejeição em assunto/texto/HTML antes de acessar
+o objeto. Snapshot limpo sem configurações ignoradas: instalação, lint,
+**13 testes unitários/contratos e audit com zero vulnerabilidades PASS**.
+Os seis testes operacionais também passaram. Essa mudança invalida o
+reaproveitamento automático da imagem/API anterior; qualificação completa e
+scan das novas identidades continuam necessários na próxima CI.
 
 O requisito de Debian 13/pacotes oficiais continua vigente. A consulta ao
 Debian Security Tracker em 08/10/2026 ainda identifica as versões trixie de
@@ -133,8 +150,8 @@ antes da implementação.
 
 | Área | Estado após esta correção |
 |---|---|
-| Implementação local | Código anterior preservado; bootstrap/adoção e exportador CI acrescentados; testes locais específicos PASS. |
-| CI | Última execução do baseline FAIL; correção do artifact validada localmente, nova execução pendente. Segurança das imagens continua bloqueante. |
+| Implementação local | Bootstrap/adoção/exportador acrescentados; Handlebars corrigido e renderizador endurecido; 19 testes locais específicos PASS, audit zero. |
+| CI | Publicação do artifact PASS em 2dd9509; rodada FAIL no audit. Correção de dependência passou localmente; nova execução pendente. Segurança das imagens continua bloqueante. |
 | Infraestrutura | Base/SSH/firewall/Docker/Caddy corrigidos, hostname publicado; armazenamento, backup, PTR e portas 25 não qualificados. |
 | Entrega real | NOT_RUN; SMTP/API de produção ainda não disponíveis. |
 | Aceite operacional | BLOCKED; aplicativo não pode depender do serviço. |

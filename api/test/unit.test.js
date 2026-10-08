@@ -87,6 +87,33 @@ test("strict template required variables, HTML escaping and no dynamic includes"
   ])
     assert.throws(() => render({ ...t, subject }, { name: "x" }));
 });
+
+test("template boundaries reject AST objects before inspecting or compiling them", () => {
+  let inspected = false;
+  const ast = {
+    type: "Program",
+    get body() {
+      inspected = true;
+      return [];
+    },
+  };
+  for (const field of ["subject", "text", "html"]) {
+    for (const source of [ast, [], false, 0]) {
+      assert.throws(
+        () =>
+          render({
+            from: "sender@example.test",
+            subject: "Hello",
+            text: "Body",
+            [field]: source,
+          }),
+        (error) =>
+          error.statusCode === 400 && error.code === "invalid_template",
+      );
+    }
+  }
+  assert.equal(inspected, false);
+});
 test("mail rejects injection and recipients lists", async () => {
   assert.throws(() => address("a@example.test,b@example.test"));
   assert.throws(() => address("a@example.test\r\nBcc: b@example.test"));
