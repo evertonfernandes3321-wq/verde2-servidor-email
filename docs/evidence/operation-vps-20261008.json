@@ -1,0 +1,60 @@
+{
+  "observedAt": "2026-10-08T17:14:56.429518-03:00",
+  "scope": "authorized_base_repair_not_mail_activation",
+  "host": "177.153.67.99",
+  "mailHostname": "mail.interati-app.com.br",
+  "bootstrapStatus": "BASE_READY_MAIL_NOT_DEPLOYED",
+  "dockerVersion": "29.8.2",
+  "composeVersion": "5.6.0",
+  "guardActive": true,
+  "guardEnabled": true,
+  "remainingContainers": 0,
+  "dockerStorage": {
+    "driver": "overlayfs",
+    "root": "/var/lib/docker",
+    "logging": "local"
+  },
+  "ufwRules": [
+    "Status: active",
+    "",
+    "     To                         Action      From",
+    "     --                         ------      ----",
+    "[ 1] 22/tcp                     LIMIT IN    170.238.162.239           ",
+    "[ 2] 25/tcp                     DENY OUT    Anywhere                   (out)",
+    "[ 3] 465/tcp                    DENY OUT    Anywhere                   (out)",
+    "[ 4] 587/tcp                    DENY OUT    Anywhere                   (out)",
+    "[ 5] 2525/tcp                   DENY OUT    Anywhere                   (out)",
+    "[ 6] 25/tcp (v6)                DENY OUT    Anywhere (v6)              (out)",
+    "[ 7] 465/tcp (v6)               DENY OUT    Anywhere (v6)              (out)",
+    "[ 8] 587/tcp (v6)               DENY OUT    Anywhere (v6)              (out)",
+    "[ 9] 2525/tcp (v6)              DENY OUT    Anywhere (v6)              (out)"
+  ],
+  "listeners": [
+    "State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess",
+    "LISTEN 0      4096       127.0.0.1:8081      0.0.0.0:*          ",
+    "LISTEN 0      4096       127.0.0.1:2019      0.0.0.0:*          ",
+    "LISTEN 0      4096         0.0.0.0:22        0.0.0.0:*          ",
+    "LISTEN 0      4096      127.0.0.54:53        0.0.0.0:*          ",
+    "LISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*          ",
+    "LISTEN 0      4096            [::]:22           [::]:*"
+  ],
+  "sshEffective": [
+    "permitrootlogin no",
+    "pubkeyauthentication yes",
+    "passwordauthentication no",
+    "kbdinteractiveauthentication no",
+    "allowusers verde2admin"
+  ],
+  "packageAuditClean": true,
+  "configHashes": {
+    "/usr/local/sbin/verde2-bootstrap-host": "f72b2545945b505668703e57bf0be4b2465cc6b2e67c979a437cac5040f1061e",
+    "/usr/local/sbin/verde2-network-guard": "ce3d2a7ae9c123d74548d75abf51875ec36c0b7b0e0452555923938775a3db34",
+    "/etc/docker/daemon.json": "da0cd5b35ab8e05b87a5a742b3037befb83bd7e3c23365cc18f2cd3dfb9b18ab",
+    "/etc/caddy/Caddyfile": "2099a076052fc6047af772fbfe7e8803ed0e154a08f529897006322d486bd2e8",
+    "/etc/systemd/system/docker.service.d/verde2-guard.conf": "de7e57e42aa11365ae6aa0b0b090842d84791f8ac56a657c4e7b7af25cabfcd8",
+    "/etc/systemd/system/verde2-network-guard.service": "9aca0d59e1c87c9896a40969eb91f2bd8d857d3fac633294ee128d9d628198ce"
+  },
+  "storageCryptoQualified": false,
+  "offVmBackupQualified": false,
+  "smtpApiDeployed": false
+}

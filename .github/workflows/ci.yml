@@ -30,15 +30,14 @@ jobs:
         run: node scripts/qualify.mjs
       - name: Dependency and image gates with SBOM
         run: node scripts/scan-images.mjs
+      - name: Export sanitized evidence
+        if: always()
+        run: node scripts/export-ci-evidence.mjs
       - name: Sanitized evidence only
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sanitized-qualification
-          path: |
-            .qualification/**/evidence.json
-            .qualification/**/source-manifest.json
-            .qualification/scans/**/*-scan.json
-            .qualification/scans/**/*-sbom.json
+          path: artifacts/ci-evidence/
           retention-days: 7
           if-no-files-found: error

@@ -1,0 +1,10 @@
+{
+  admin 127.0.0.1:2019
+  auto_https off
+}
+
+# Local maintenance response only. This is not the production API or SMTP TLS.
+http://127.0.0.1:8081 {
+  bind 127.0.0.1
+  respond "Verde2 deployment pending" 503
+}

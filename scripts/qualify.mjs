@@ -124,7 +124,7 @@ try {
   await check('lint', () => npmRun(['run', 'lint']));
   await check('unit and OpenAPI contract', () => npmRun(['test']));
   await check('npm dependency audit', () => npmRun(['audit', '--audit-level=high']));
-  await check('encrypted backup and authenticated retention unit tests',()=>command('node',['--test','tests/backup.test.mjs','tests/scanner.test.mjs'],{cwd:tree}));
+  await check('encrypted backup, authenticated retention and CI evidence unit tests',()=>command('node',['--test','tests/backup.test.mjs','tests/scanner.test.mjs','tests/ci-evidence.test.mjs'],{cwd:tree}));
   for (const component of components) {
     if(!reused) await check(`build ${component}`, () => docker(['build', '--tag', `verde2/${component}:local`, join(tree, component)]));
     else await check(`reuse exact qualified ${component} image`,async()=>{});

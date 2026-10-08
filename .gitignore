@@ -56,6 +56,7 @@ temp/
 secrets/
 opendkim/keys/
 artifacts/private/
+artifacts/ci-evidence/
 __pycache__/
 *.pyc
 *.key
